@@ -1,0 +1,78 @@
+class Program
+{
+    static int[] Tablero = new int[8];
+
+    static void PintarTablero()
+    {
+        Console.WriteLine();
+        for (int Fila = 0; Fila < 8; Fila++)
+        {
+            for (int Columna = 0; Columna < 8; Columna++)
+            {
+                if (Tablero[Columna] == Fila)
+                    Console.Write(" R ");
+                else
+                    Console.Write(" . ");
+            }
+            Console.WriteLine();
+        }
+        Console.ReadKey();
+    }
+
+    static bool TableroCorrecto(int Columna)
+    {
+        for (int i = 0; i < Columna; i++)
+        {
+            if (Tablero[i] == Tablero[Columna]) return false;
+            if (Math.Abs(Columna - i) == Math.Abs(Tablero[Columna] - Tablero[i])) return false;
+        }
+        return true;
+    }
+
+
+    static void ColocarReina(int Columna)
+    {
+        Console.WriteLine("Inserte REINA");
+        for (int Fila = 0; Fila < 8; Fila++)
+        {
+            String linea;
+            linea = Console.ReadLine();
+            Fila = int.Parse(linea);
+            if (Fila < 8)
+            {
+                Tablero[Columna] = Fila;
+                if (TableroCorrecto(Columna))
+                {
+                    if (Columna == 7)
+                    {
+                        Console.WriteLine("EXCELENTE PARTIDA!!");
+                        PintarTablero();
+                        Console.ReadKey();
+                        break;
+                    }
+                    else
+                        ColocarReina(Columna + 1);
+                }
+                else
+                {
+                    Console.WriteLine("No hay mas movimientos por realizar!!");
+                    break;
+                }
+            }
+            else
+            {
+                Console.WriteLine("¡Columna fuera de RANGO!");
+                break;
+            }
+        }
+    }
+    
+
+    static void Main(string[] args)
+    {
+        Console.WriteLine("** BIENVENIDOS AL JUEGO DE LAS 8 REINAS **");
+        Console.WriteLine();
+        ColocarReina(0);
+        Console.ReadKey();
+    }
+}
